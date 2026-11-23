@@ -1,0 +1,55 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import QuestionCard from '../../components/QuestionCard.astro';
+import { CATEGORIES } from '../../content.config';
+import { SITE } from '../../config';
+
+export async function getStaticPaths() {
+  const all = await getCollection('questions');
+  return all.map((q) => ({ params: { id: q.id }, props: { q, all } }));
+}
+const { q, all } = Astro.props;
+const { Content } = await render(q);
+const related = q.data.related
+  .map((id) => all.find((x) => x.id === id))
+  .filter((x): x is NonNullable<typeof x> => Boolean(x));
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  inLanguage: 'ko',
+  mainEntity: [{ '@type': 'Question', name: q.data.title, acceptedAnswer: { '@type': 'Answer', text: q.data.answer } }],
+};
+const categoryLabel = CATEGORIES[q.data.category];
+---
+<Base title={q.data.title} description={q.data.answer} jsonLd={jsonLd}>
+  <article class="prose">
+    <p class="eyebrow"><a href={`/questions/#${q.data.category}`}>질문과 답 · {categoryLabel}</a></p>
+    <h1>{q.data.title}</h1>
+    <div class="answer-box">
+      <strong>짧은 답</strong>
+      <p>{q.data.answer}</p>
+    </div>
+    <Content />
+    {q.data.sources.length > 0 && (
+      <div class="sources">
+        <strong>출처와 참고</strong>
+        <ul>{q.data.sources.map((s) => <li>{s}</li>)}</ul>
+        <p class="small">
+          {q.data.reviewed
+            ? '이 글은 이슬람 학자의 검토를 거쳤습니다.'
+            : '이 글은 학자 검토를 기다리는 초안입니다. 잘못된 부분이 보이면 알려 주세요.'}
+          {' '}<a href="/ask/">의견 보내기</a>
+        </p>
+      </div>
+    )}
+  </article>
+  {related.length > 0 && (
+    <section class="container" style="margin-top:48px">
+      <h2 style="font-size:1.15rem">함께 읽으면 좋은 질문</h2>
+      <div class="grid">
+        {related.map((r) => <QuestionCard id={r.id} title={r.data.title} answer={r.data.answer} />)}
+      </div>
+    </section>
+  )}
+</Base>

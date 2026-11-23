@@ -1,0 +1,9 @@
+---
+interface Props { id: string; title: string; answer: string }
+const { id, title, answer } = Astro.props;
+const short = answer.length > 80 ? answer.slice(0, 78) + '…' : answer;
+---
+<a class="card card-link" href={`/questions/${id}/`}>
+  <h3>{title}</h3>
+  <p>{short}</p>
+</a>

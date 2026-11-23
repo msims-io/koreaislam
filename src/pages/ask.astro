@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config';
+---
+<Base title="질문하기" description="이슬람에 대해 궁금한 것을 한국어로 편하게 물어보세요. 한국 무슬림이 직접 답합니다." nextStep={false}>
+  <div class="prose">
+    <h1>무엇이든 물어보세요</h1>
+    <p>이슬람에 대해 궁금한 점, 불편했던 점, 걱정되는 점, 무엇이든 괜찮아요. 한국어를 쓰는 무슬림 봉사자가 48시간 안에 답해 드려요. 개종을 권하거나, 원하지 않는 연락을 드리지 않아요.</p>
+
+    <div class="card channel">
+      <h2>카카오톡으로 물어보기</h2>
+      <p class="muted">가장 빠르고 편한 방법이에요. 이름을 밝히지 않아도 돼요.</p>
+      {SITE.kakaoUrl
+        ? <a class="btn btn-primary" href={SITE.kakaoUrl} target="_blank" rel="noopener">카카오톡 채널 열기</a>
+        : <p class="notice">카카오톡 채널을 준비하고 있어요. 곧 열릴 예정입니다.</p>}
+    </div>
+
+    <div class="card channel">
+      <h2>글로 남기기</h2>
+      {SITE.formEndpoint ? (
+        <form action={SITE.formEndpoint} method="post">
+          <label for="question">질문</label>
+          <textarea id="question" name="question" rows="6" required placeholder="예: 무슬림 친구가 생겼는데, 같이 밥 먹을 때 무엇을 조심하면 좋을까요?"></textarea>
+          <label for="email">답을 받을 이메일 (선택)</label>
+          <input id="email" name="email" type="email" placeholder="비워 두시면 답변을 사이트 질문 글로 공개할 수 있어요" />
+          <label for="publish" class="check"><input id="publish" name="publish" type="checkbox" value="yes" /> 이름을 빼고 이 질문을 사이트에 공개해도 괜찮아요</label>
+          <button class="btn btn-primary" type="submit" style="margin-top:16px">보내기</button>
+        </form>
+      ) : (
+        <p class="notice">질문 양식을 준비하고 있어요. {SITE.email ? <>그동안은 <a href={`mailto:${SITE.email}`}>{SITE.email}</a>로 보내 주세요.</> : '조금만 기다려 주세요.'}</p>
+      )}
+    </div>
+
+    <div class="card channel">
+      <h2>직접 만나 보기</h2>
+      <p class="muted">가까운 성원에 찾아가 무슬림과 직접 이야기를 나눠 보세요.</p>
+      <a class="btn btn-ghost" href="/mosques/">가까운 성원 찾기</a>
+    </div>
+
+    <h2>먼저 읽어 보시면 좋은 질문</h2>
+    <p><a href="/questions/">질문과 답</a>에 자주 묻는 질문들을 정리해 두었어요. 거기 없는 질문은 새 글로 만들어 올릴게요.</p>
+  </div>
+</Base>
+<style>
+  .channel { margin: 16px 0; }
+  .channel h2 { margin: 0 0 6px; font-size: 1.15rem; }
+  .channel p { margin: 0 0 12px; }
+  .check { font-weight: 400; display: flex; gap: 8px; align-items: center; }
+</style>

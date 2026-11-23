@@ -1,0 +1,28 @@
+---
+import { SITE } from '../config';
+interface Props { heading?: string }
+const { heading = '더 궁금한 점이 있으신가요?' } = Astro.props;
+const kakao = SITE.kakaoUrl || '/ask/';
+---
+<section class="next-step container" aria-labelledby="next-step-title">
+  <div class="inner">
+    <div>
+      <p class="eyebrow">다음 걸음</p>
+      <h2 id="next-step-title">{heading}</h2>
+      <p class="muted">글로는 다 전하기 어려운 것이 있어요. 한국어로 편하게 물어보시거나, 가까운 성원(모스크)에 찾아가 보세요. 누구도 개종을 권하지 않습니다.</p>
+    </div>
+    <div class="actions">
+      <a class="btn btn-primary" href={kakao} target={SITE.kakaoUrl ? '_blank' : undefined} rel={SITE.kakaoUrl ? 'noopener' : undefined}>카카오톡으로 질문하기</a>
+      <a class="btn btn-ghost" href="/mosques/">가까운 성원 찾기</a>
+    </div>
+  </div>
+</section>
+<style>
+  .next-step { margin-top: 56px; }
+  .inner { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 28px; display: grid; gap: 20px; align-items: center; }
+  @media (min-width: 760px) { .inner { grid-template-columns: 1fr auto; padding: 32px 36px; } }
+  h2 { margin: 0 0 8px; }
+  p.muted { margin: 0; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+  @media (max-width: 480px) { .actions .btn { width: 100%; } }
+</style>

@@ -1,0 +1,20 @@
+---
+import Base from './Base.astro';
+interface Props { title: string; description: string; eyebrow?: string }
+const { title, description, eyebrow = '나와 이슬람' } = Astro.props;
+---
+<Base title={title} description={description}>
+  <article class="prose guide">
+    <p class="eyebrow"><a href="/you/">{eyebrow}</a></p>
+    <h1>{title}</h1>
+    <slot />
+  </article>
+</Base>
+<style is:global>
+  .guide table { width: 100%; border-collapse: collapse; font-size: 0.95rem; margin: 1em 0; }
+  .guide th, .guide td { border-bottom: 1px solid var(--line); padding: 10px 8px; text-align: left; vertical-align: top; }
+  .guide th { color: var(--muted); font-weight: 600; font-size: 0.85rem; }
+  .table-wrap { overflow-x: auto; }
+  .guide .readmore { list-style: none; padding: 0; }
+  .guide .readmore li { margin: 6px 0; }
+</style>

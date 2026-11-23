@@ -1,0 +1,73 @@
+---
+import '../styles/global.css';
+import { SITE } from '../config';
+import NextStep from '../components/NextStep.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  nextStep?: boolean;
+  jsonLd?: object;
+}
+const { title, description = SITE.description, nextStep = true, jsonLd } = Astro.props;
+const fullTitle = title ? `${title} | ${SITE.name}` : `${SITE.name} | ${SITE.tagline}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const path = Astro.url.pathname;
+const nav = [
+  { href: '/questions/', label: '질문과 답' },
+  { href: '/you/', label: '나와 이슬람' },
+  { href: '/mosques/', label: '가까운 성원' },
+  { href: '/ask/', label: '질문하기' },
+  { href: '/about/', label: '소개' },
+];
+---
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={title ?? SITE.name} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="theme-color" content="#2f6b5e" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  </head>
+  <body>
+    <a class="skip" href="#main">본문으로 건너뛰기</a>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="/">궁금한 <span>이슬람</span></a>
+        <nav class="nav" aria-label="주요 메뉴">
+          {nav.map((n) => (
+            <a href={n.href} aria-current={path.startsWith(n.href) ? 'page' : undefined}>{n.label}</a>
+          ))}
+        </nav>
+      </div>
+    </header>
+    <main id="main">
+      <slot />
+      {nextStep && <NextStep />}
+    </main>
+    <footer class="site-footer">
+      <div class="container">
+        <div>
+          <strong>{SITE.name}</strong> · 한국 무슬림이 운영하는 이슬람 안내 사이트<br />
+          누구에게도 개종을 강요하지 않습니다. "종교에는 강요가 없다" (꾸란 2:256)
+        </div>
+        <div>
+          <a href="/about/">운영자와 원칙</a> · <a href="/ask/">문의</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
