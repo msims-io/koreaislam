@@ -1,0 +1,142 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import QuestionCard from '../components/QuestionCard.astro';
+import Icon from '../components/Icon.astro';
+import { localePath, type Lang } from '../i18n';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const L = (p: string) => localePath(lang, p);
+
+// 홈에 보여줄 질문 (순서대로)
+const FEATURED = ['violence', 'hijab', 'jesus', 'halal'];
+const all = await getCollection(lang === 'en' ? 'questionsEn' : 'questions');
+const featured = FEATURED.map((id) => all.find((q) => q.id === id)).filter((q) => q !== undefined);
+
+const T = lang === 'en'
+  ? {
+      eyebrow: 'Answered by Korean Muslims',
+      h1a: 'Curious about Islam?', h1b: 'Start with honest answers',
+      lead: 'If you only know Islam from the news, take your time here. Nobody will tell you what to believe.',
+      note: 'This is the English version of a site written for Korean readers.',
+      searchLabel: 'What would you like to know?', placeholder: 'Hijab, terrorism, Jesus, halal…', search: 'Search',
+      chips: ['hijab', 'halal', 'Ramadan', 'Jesus'],
+      top: 'Most asked questions', all: 'See all questions',
+      pathsTitle: 'Start from where you are',
+      paths: [
+        { href: '/you/christian/', title: 'I go to church', sub: 'The same God, Jesus in the Qur\'an', icon: 'book', tile: 'tile-1' },
+        { href: '/you/buddhist/', title: "I'm close to Buddhism", sub: 'Training the mind, precepts', icon: 'leaf', tile: 'tile-2' },
+        { href: '/you/non-religious/', title: "I'm not religious", sub: 'A no-pressure conversation', icon: 'compass', tile: 'tile-3' },
+      ],
+      storyEyebrow: 'Korea and Islam', storyTitle: 'The Turkish soldiers of the Korean War',
+      storyText: 'Islam\'s modern story in Korea began with Turkish soldiers who came to defend Korea and cared for war orphans.',
+      storyLink: 'Read the story',
+    }
+  : {
+      eyebrow: '한국 무슬림이 직접 답해요',
+      h1a: '이슬람이 궁금할 때,', h1b: '솔직한 답부터',
+      lead: '뉴스로만 접한 이슬람, 차분히 알아보세요. 무엇을 믿으라고 하지 않아요.',
+      note: '',
+      searchLabel: '무엇이 궁금하세요?', placeholder: '히잡, 테러, 예수, 할랄…', search: '검색',
+      chips: ['히잡', '할랄', '라마단', '예수'],
+      top: '많이 묻는 질문', all: '질문 모두 보기',
+      pathsTitle: '나에게 맞는 이야기부터',
+      paths: [
+        { href: '/you/christian/', title: '교회에 다녀요', sub: '같은 하나님, 꾸란 속의 예수', icon: 'book', tile: 'tile-1' },
+        { href: '/you/buddhist/', title: '불교와 가까워요', sub: '마음 수행과 계율', icon: 'leaf', tile: 'tile-2' },
+        { href: '/you/non-religious/', title: '종교가 없어요', sub: '강요 없는 이야기', icon: 'compass', tile: 'tile-3' },
+      ],
+      storyEyebrow: '한국과 이슬람', storyTitle: '6·25 전쟁 때 온 튀르키예 군인들',
+      storyText: '한국 이슬람의 이야기는 한국을 지키러 온 튀르키예 군인들이 전쟁고아를 돌보며 시작됐어요.',
+      storyLink: '이야기 읽기',
+    };
+const jsonLd = { '@context': 'https://schema.org', '@type': 'WebSite', name: lang === 'en' ? 'Curious about Islam' : '궁금한 이슬람', inLanguage: lang };
+---
+<Base jsonLd={jsonLd} lang={lang}>
+  <section class="hero container">
+    <div class="hero-text">
+      <p class="eyebrow">{T.eyebrow}</p>
+      <h1>{T.h1a}<br />{T.h1b}</h1>
+      <p class="lead">{T.lead}</p>
+      {T.note && <p class="small muted">{T.note}</p>}
+    </div>
+    <form class="hero-search" action={L('/questions/')} method="get" role="search">
+      <label for="home-q">{T.searchLabel}</label>
+      <div class="search-box">
+        <Icon name="search" />
+        <input id="home-q" type="search" name="q" placeholder={T.placeholder} />
+        <button class="btn btn-primary" type="submit">{T.search}</button>
+      </div>
+      <div class="chips">
+        {T.chips.map((c) => <a class="chip" href={`${L('/questions/')}?q=${encodeURIComponent(c)}`}>#{c}</a>)}
+      </div>
+    </form>
+  </section>
+
+  <section class="container section">
+    <div class="section-head">
+      <h2>{T.top}</h2>
+      <a href={L('/questions/')}>{T.all} ›</a>
+    </div>
+    <div class="grid">
+      {featured.map((q) => <QuestionCard id={q.id} title={q.data.title} answer={q.data.answer} lang={lang} />)}
+    </div>
+  </section>
+
+  <section class="band section-band">
+    <div class="container">
+      <h2>{T.pathsTitle}</h2>
+      <div class="grid paths">
+        {T.paths.map((p) => (
+          <a class="card card-link path-card raised" href={L(p.href)}>
+            <span class={`tile ${p.tile}`}><Icon name={p.icon as any} /></span>
+            <span><h3>{p.title}</h3><p>{p.sub}</p></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="container section">
+    <a class="card card-link story" href={L('/questions/islam-in-korea/')}>
+      <p class="eyebrow">{T.storyEyebrow}</p>
+      <h3>{T.storyTitle}</h3>
+      <p>{T.storyText}</p>
+      <span class="story-link">{T.storyLink} ›</span>
+    </a>
+  </section>
+</Base>
+<style>
+  .hero { display: flex; flex-wrap: wrap; gap: 40px 56px; align-items: center; padding-top: 32px; padding-bottom: 24px; }
+  .hero-text { flex: 1 1 460px; min-width: 0; }
+  .hero h1 { font-size: clamp(2.1rem, 6.2vw, 3.6rem); line-height: 1.22; margin-bottom: 0.45em; }
+  .lead { font-size: clamp(1.05rem, 2.2vw, 1.25rem); color: var(--text-2); max-width: 520px; margin: 0 0 8px; }
+  .hero-search { flex: 1 1 380px; min-width: 0; background: var(--surface); border-radius: var(--radius-lg); padding: 28px; }
+  .hero-search label { margin-top: 0; font-size: 1.05rem; }
+  .search-box { display: flex; align-items: center; gap: 10px; background: var(--bg); border-radius: var(--radius); padding: 6px 6px 6px 16px; }
+  .search-box :global(svg) { width: 22px; height: 22px; color: var(--muted); flex-shrink: 0; }
+  .search-box input { background: transparent; padding: 10px 0; min-width: 0; flex: 1; }
+  .search-box input:focus { outline: none; }
+  .search-box:focus-within { outline: 2px solid var(--accent); }
+  .search-box .btn { min-height: 46px; padding: 0 18px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .chip { background: var(--accent-soft); color: var(--accent-strong); padding: 7px 14px; border-radius: 20px; font-size: 0.9rem; font-weight: 600; text-decoration: none; }
+  .section { margin-top: 56px; }
+  .section-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 16px; }
+  .section-head h2 { margin: 0; }
+  .section-head a { text-decoration: none; font-weight: 600; font-size: 0.95rem; white-space: nowrap; }
+  .section-band { margin-top: 64px; padding: 56px 0; }
+  .section-band h2 { margin: 0 0 18px; }
+  .raised { background: var(--raised); }
+  .raised:hover { background: var(--raised); box-shadow: 0 0 0 2px var(--accent-soft); }
+  .story { background: var(--accent-soft); }
+  .story:hover { background: var(--accent-soft); }
+  .story h3 { font-size: 1.35rem; }
+  .story p:not(.eyebrow) { color: var(--text-2); max-width: 620px; }
+  .story-link { display: inline-block; margin-top: 12px; color: var(--accent-strong); font-weight: 600; }
+  @media (max-width: 480px) {
+    .hero-search { padding: 20px; }
+    .search-box .btn { display: none; }
+  }
+</style>

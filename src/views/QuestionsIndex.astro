@@ -36,11 +36,13 @@ const groups = Object.entries(t.categories)
 <style>
   .search { max-width: 560px; margin: 20px 0 8px; }
   .sr { position: absolute; left: -9999px; }
-  .qlist { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--line); }
-  .qlist li { border-bottom: 1px solid var(--line); }
-  .qlist a { display: block; padding: 14px 4px; color: var(--text); text-decoration: none; font-weight: 500; }
+  .qlist { list-style: none; padding: 0; margin: 0; }
+  .qlist li { border-bottom: 1px solid var(--surface-2); }
+  .qlist li:last-child { border-bottom: 0; }
+  .qlist a { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 18px 2px; color: var(--text); text-decoration: none; font-weight: 500; font-size: 1.05rem; }
+  .qlist a::after { content: '›'; color: var(--muted); font-size: 1.3rem; line-height: 1; }
   .qlist a:hover { color: var(--accent); }
-  .group h2 { font-size: 1.05rem; color: var(--muted); margin-top: 36px; }
+  .group h2 { font-size: 1.15rem; color: var(--text); margin-top: 40px; }
 </style>
 <script>
   const input = document.getElementById('q') as HTMLInputElement;

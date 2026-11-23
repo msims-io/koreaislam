@@ -9,23 +9,27 @@ const kakao = SITE.kakaoUrl || localePath(lang, '/ask/');
 ---
 <section class="next-step container" aria-labelledby="next-step-title">
   <div class="inner">
-    <div>
-      <p class="eyebrow">{t.eyebrow}</p>
+    <div class="copy">
       <h2 id="next-step-title">{heading}</h2>
-      <p class="muted">{t.body}</p>
+      <p>{t.body}</p>
     </div>
     <div class="actions">
-      <a class="btn btn-primary" href={kakao} target={SITE.kakaoUrl ? '_blank' : undefined} rel={SITE.kakaoUrl ? 'noopener' : undefined}>{t.kakao}</a>
-      <a class="btn btn-ghost" href={localePath(lang, '/mosques/')}>{t.mosque}</a>
+      <a class="btn on-white" href={kakao} target={SITE.kakaoUrl ? '_blank' : undefined} rel={SITE.kakaoUrl ? 'noopener' : undefined}>{t.kakao}</a>
+      <a class="btn on-tint" href={localePath(lang, '/mosques/')}>{t.mosque}</a>
     </div>
   </div>
 </section>
 <style>
-  .next-step { margin-top: 56px; }
-  .inner { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 28px; display: grid; gap: 20px; align-items: center; }
-  @media (min-width: 760px) { .inner { grid-template-columns: 1fr auto; padding: 32px 36px; } }
-  h2 { margin: 0 0 8px; }
-  p.muted { margin: 0; }
+  .next-step { margin-top: 64px; }
+  .inner { background: var(--accent); color: var(--on-accent); border-radius: var(--radius-lg); padding: 32px 28px; display: flex; flex-wrap: wrap; gap: 24px; align-items: center; justify-content: space-between; }
+  .copy { flex: 1 1 360px; min-width: 0; }
+  @media (min-width: 760px) { .inner { padding: 44px 48px; } }
+  h2 { margin: 0 0 8px; color: var(--on-accent); font-size: 1.6rem; }
+  p { margin: 0; opacity: 0.9; }
   .actions { display: flex; flex-wrap: wrap; gap: 10px; }
-  @media (max-width: 480px) { .actions .btn { width: 100%; } }
+  .on-white { background: var(--bg); color: var(--accent-strong); }
+  .on-white:hover { color: var(--accent-strong); filter: brightness(0.97); }
+  .on-tint { background: rgba(255, 255, 255, 0.16); color: var(--on-accent); }
+  .on-tint:hover { color: var(--on-accent); background: rgba(255, 255, 255, 0.24); }
+  @media (max-width: 480px) { .actions, .actions .btn { width: 100%; } }
 </style>

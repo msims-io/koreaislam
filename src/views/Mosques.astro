@@ -128,8 +128,8 @@ const ask = SITE.kakaoUrl || localePath(lang, '/ask/');
   .controls { margin: 24px 0 16px; display: grid; gap: 12px; }
   .controls #near { justify-self: start; }
   .chips { display: flex; flex-wrap: wrap; gap: 6px; }
-  .chip { font: inherit; font-size: 0.9rem; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--text); cursor: pointer; }
-  .chip[aria-pressed='true'] { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+  .chip { font: inherit; font-size: 0.9rem; padding: 6px 14px; border-radius: 999px; border: 0; background: var(--surface-2); color: var(--text); cursor: pointer; }
+  .chip[aria-pressed='true'] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
   .mosques { list-style: none; padding: 0; display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
   .mosque h2 { font-size: 1.05rem; margin: 0; }
   .mosque p { margin: 6px 0; }

@@ -1,0 +1,76 @@
+/*
+ * Skin: Toss clean (design 1 on the design board).
+ * A skin only sets tokens. To add another design later (e.g. Hanji, Card news),
+ * copy this file, change the values, and import it in Base.astro instead / per variant.
+ */
+:root {
+  --font: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+  --font-display: var(--font);
+  --bg: #ffffff;
+  --surface: #f9fafb;      /* cards, panels */
+  --surface-2: #f2f4f6;    /* inputs, section dividers */
+  --raised: #ffffff;       /* cards sitting on a grey band */
+  --text: #191f28;
+  --text-2: #4e5968;       /* secondary body text */
+  --muted: #6b7684;
+  --line: #e5e8eb;
+  --accent: #3182f6;
+  --accent-strong: #1b64da;
+  --accent-soft: #e8f3ff;
+  --on-accent: #ffffff;
+  --tile-1: #e8f3ff;
+  --tile-2: #fff4e6;
+  --tile-3: #ebfbee;
+  --warn-bg: #fff8e6;
+  --warn-text: #8a5a00;
+  --card-border: transparent;
+  --radius: 16px;
+  --radius-lg: 24px;
+  --radius-btn: 14px;
+  --h1-weight: 700;
+  --h1-tracking: -0.04em;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #17171c;
+    --surface: #202027;
+    --surface-2: #2c2c35;
+    --raised: #26262e;
+    --text: #ececf0;
+    --text-2: #b0b0bc;
+    --muted: #9a9aa6;
+    --line: #34343e;
+    --accent: #4c9aff;
+    --accent-strong: #7ab4ff;
+    --accent-soft: #1d2b40;
+    --on-accent: #0b1420;
+    --tile-1: #1d2b40;
+    --tile-2: #3a2c17;
+    --tile-3: #1b3322;
+    --warn-bg: #3a2f18;
+    --warn-text: #f0cf8a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme='dark'] {
+  --bg: #17171c;
+  --surface: #202027;
+  --surface-2: #2c2c35;
+  --raised: #26262e;
+  --text: #ececf0;
+  --text-2: #b0b0bc;
+  --muted: #9a9aa6;
+  --line: #34343e;
+  --accent: #4c9aff;
+  --accent-strong: #7ab4ff;
+  --accent-soft: #1d2b40;
+  --on-accent: #0b1420;
+  --tile-1: #1d2b40;
+  --tile-2: #3a2c17;
+  --tile-3: #1b3322;
+  --warn-bg: #3a2f18;
+  --warn-text: #f0cf8a;
+  color-scheme: dark;
+}
