@@ -1,0 +1,187 @@
+---
+import Base from '../layouts/Base.astro';
+import { MOSQUES, REGIONS, REGIONS_EN } from '../data/mosques';
+import { SITE } from '../config';
+import { localePath, type Lang } from '../i18n';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const en = lang === 'en';
+const T = en
+  ? {
+      title: 'Find a mosque near you',
+      desc: 'Mosques across Korea: addresses, phone numbers and visitor information.',
+      intro: 'A mosque is where Muslims pray. Most welcome non-Muslims who want to look around quietly. If it is your first visit, phone ahead to ask about a good time.',
+      notice: 'This information was collected from public listings and we are still confirming it with each mosque. Please phone before you visit. If you spot something wrong,',
+      noticeLink: 'let us know',
+      near: 'Sort by distance from me',
+      all: 'All',
+      regionLabel: 'Choose a region',
+      welcome: 'Welcomes non-Muslim visitors (per public notice)',
+      unknown: 'Visitor policy unconfirmed · please call first',
+      korean: 'Korean-speaking guide',
+      koreanUnknown: 'Korean speaker unconfirmed',
+      unverified: 'Address and phone not yet verified',
+      naver: 'Naver Map',
+      kakao: 'Kakao Map',
+      tipsTitle: 'On your first visit',
+      tips: [
+        'Dress modestly, covering arms and legs. Women may like to bring a scarf for the prayer hall (many mosques do not require it).',
+        'Take your shoes off before entering the prayer hall.',
+        'Do not take photos during prayers, and do not walk in front of someone who is praying.',
+        'Friday around midday is the busiest time. For a quiet look around, try another weekday afternoon.',
+        'Ask anything you like. Nobody will push you to convert.',
+      ],
+      tipsAsk: 'Not sure about going? Ask us on KakaoTalk first',
+      tipsAsk2: 'and we will contact the nearest mosque for you.',
+      geoNo: 'Location is not available in this browser. Please choose a region.',
+      geoWait: 'Finding your location…',
+      geoDone: 'Sorted by distance. Distances are rough straight-line estimates. Your location is not stored.',
+      geoFail: 'Could not get your location. Please choose a region.',
+      approx: 'about',
+    }
+  : {
+      title: '가까운 성원 찾기',
+      desc: '전국 이슬람 성원(모스크) 목록. 주소, 전화번호, 비무슬림 방문 안내.',
+      intro: '성원(모스크)은 무슬림이 기도하는 곳이에요. 대부분 무슬림이 아닌 분도 조용히 둘러볼 수 있어요. 처음 방문하신다면 미리 전화로 시간을 여쭤보시는 것이 좋아요.',
+      notice: '지금 보이는 정보는 공개된 자료를 모은 것이고, 각 성원에 직접 확인하는 중이에요. 방문 전에 꼭 전화로 확인해 주세요. 잘못된 정보를 발견하시면',
+      noticeLink: '알려 주세요',
+      near: '내 위치에서 가까운 순',
+      all: '전체',
+      regionLabel: '지역 선택',
+      welcome: '비무슬림 방문 환영 (공개 안내 기준)',
+      unknown: '방문 안내 확인 중 · 먼저 전화해 주세요',
+      korean: '한국어 안내 가능',
+      koreanUnknown: '한국어 안내 확인 중',
+      unverified: '주소·연락처 확인 중',
+      naver: '네이버 지도',
+      kakao: '카카오맵',
+      tipsTitle: '처음 방문하실 때',
+      tips: [
+        '팔과 다리를 가리는 단정한 옷차림이 좋아요. 여성분은 스카프를 챙기시면 기도실에서 쓸 수 있어요(필수는 아닌 곳이 많아요).',
+        '기도실에 들어갈 때는 신발을 벗어요.',
+        '기도 중에는 사진을 찍지 말고, 기도하는 사람 앞을 지나가지 않아요.',
+        '금요일 정오 무렵은 가장 붐비는 시간이에요. 조용히 둘러보고 싶다면 다른 요일 오후가 좋아요.',
+        '무엇이든 물어보셔도 괜찮아요. 아무도 개종을 권하지 않아요.',
+      ],
+      tipsAsk: '방문이 망설여지신다면 먼저 카카오톡으로 물어보세요',
+      tipsAsk2: '가까운 성원에 미리 연락해 드릴게요.',
+      geoNo: '이 브라우저에서는 위치를 사용할 수 없어요. 지역을 선택해 주세요.',
+      geoWait: '위치를 확인하는 중이에요…',
+      geoDone: '가까운 순으로 정렬했어요. 거리는 대략적인 직선거리예요. 위치 정보는 저장하지 않아요.',
+      geoFail: '위치를 가져오지 못했어요. 지역을 선택해 주세요.',
+      approx: '약',
+    };
+const ask = SITE.kakaoUrl || localePath(lang, '/ask/');
+---
+<Base title={T.title} description={T.desc} nextStep={false} lang={lang}>
+  <div class="container">
+    <h1>{T.title}</h1>
+    <p class="muted" style="max-width:640px">{T.intro}</p>
+    <p class="notice">{T.notice} <a href={localePath(lang, '/ask/')}>{T.noticeLink}</a>.</p>
+
+    <div class="controls">
+      <button class="btn btn-primary" id="near" type="button">{T.near}</button>
+      <div class="chips" role="group" aria-label={T.regionLabel}>
+        <button type="button" class="chip" data-region="" aria-pressed="true">{T.all}</button>
+        {REGIONS.map((r) => <button type="button" class="chip" data-region={r} aria-pressed="false">{en ? REGIONS_EN[r] : r}</button>)}
+      </div>
+      <p id="geo-msg" class="small muted" hidden data-no={T.geoNo} data-wait={T.geoWait} data-done={T.geoDone} data-fail={T.geoFail} data-approx={T.approx}></p>
+    </div>
+
+    <ul class="mosques" id="list">
+      {MOSQUES.map((m) => {
+        const note = en ? m.visitorNoteEn : m.visitorNote;
+        return (
+          <li class="card mosque" data-region={m.region} data-lat={m.lat} data-lng={m.lng}>
+            <div class="top">
+              <h2>{en ? m.nameEn : m.name}</h2>
+              <span class="dist small muted"></span>
+            </div>
+            <p class="addr">{en ? m.addressEn : m.address}</p>
+            {en && <p class="small muted" lang="ko">{m.address}</p>}
+            <p><a href={`tel:${m.phone.replace(/[^0-9]/g, '')}`}>{m.phone}</a></p>
+            <div class="tags">
+              {m.visitors === 'welcome' ? <span class="tag tag-ok">{T.welcome}</span> : <span class="tag tag-warn">{T.unknown}</span>}
+              {m.koreanSpeaker === true && <span class="tag tag-ok">{T.korean}</span>}
+              {m.koreanSpeaker === undefined && <span class="tag">{T.koreanUnknown}</span>}
+              {!m.verified && <span class="tag">{T.unverified}</span>}
+            </div>
+            {note && <p class="small muted note">{note}</p>}
+            <div class="links small">
+              <a href={`https://map.naver.com/p/search/${encodeURIComponent(m.address)}`} target="_blank" rel="noopener">{T.naver}</a>
+              <a href={`https://map.kakao.com/?q=${encodeURIComponent(m.address)}`} target="_blank" rel="noopener">{T.kakao}</a>
+            </div>
+          </li>
+        );
+      })}
+    </ul>
+
+    <section class="card visit-tips">
+      <h2>{T.tipsTitle}</h2>
+      <ul>{T.tips.map((x) => <li>{x}</li>)}</ul>
+      <p><a href={ask}>{T.tipsAsk}</a>. {T.tipsAsk2}</p>
+    </section>
+  </div>
+</Base>
+<style>
+  .controls { margin: 24px 0 16px; display: grid; gap: 12px; }
+  .controls #near { justify-self: start; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { font: inherit; font-size: 0.9rem; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--text); cursor: pointer; }
+  .chip[aria-pressed='true'] { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+  .mosques { list-style: none; padding: 0; display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+  .mosque h2 { font-size: 1.05rem; margin: 0; }
+  .mosque p { margin: 6px 0; }
+  .top { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+  .dist { white-space: nowrap; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 4px; }
+  .note { line-height: 1.6; }
+  .links { display: flex; gap: 14px; margin-top: 8px; }
+  .visit-tips { margin-top: 40px; }
+  .visit-tips h2 { margin-top: 0; font-size: 1.15rem; }
+  .visit-tips ul { padding-left: 1.2em; }
+</style>
+<script>
+  const list = document.getElementById('list')!;
+  const items = Array.from(list.querySelectorAll<HTMLElement>('li.mosque'));
+  const chips = Array.from(document.querySelectorAll<HTMLButtonElement>('.chip'));
+  const msg = document.getElementById('geo-msg')!;
+  const M = msg.dataset;
+
+  chips.forEach((c) =>
+    c.addEventListener('click', () => {
+      chips.forEach((x) => x.setAttribute('aria-pressed', String(x === c)));
+      const r = c.dataset.region;
+      items.forEach((li) => (li.hidden = !!r && li.dataset.region !== r));
+    }),
+  );
+
+  const km = (a: number, b: number, c: number, d: number) => {
+    const R = 6371, t = Math.PI / 180;
+    const x = Math.sin(((c - a) * t) / 2) ** 2 + Math.cos(a * t) * Math.cos(c * t) * Math.sin(((d - b) * t) / 2) ** 2;
+    return 2 * R * Math.asin(Math.sqrt(x));
+  };
+
+  document.getElementById('near')!.addEventListener('click', () => {
+    msg.hidden = false;
+    if (!('geolocation' in navigator)) { msg.textContent = M.no!; return; }
+    msg.textContent = M.wait!;
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const { latitude, longitude } = pos.coords;
+        items.forEach((li) => {
+          const d = km(latitude, longitude, Number(li.dataset.lat), Number(li.dataset.lng));
+          li.dataset.d = String(d);
+          li.querySelector('.dist')!.textContent = `${M.approx} ${d < 10 ? d.toFixed(1) : Math.round(d)}km`;
+          li.hidden = false;
+        });
+        chips.forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.region === '')));
+        items.sort((a, b) => Number(a.dataset.d) - Number(b.dataset.d)).forEach((li) => list.appendChild(li));
+        msg.textContent = M.done!;
+      },
+      () => { msg.textContent = M.fail!; },
+      { timeout: 10000, maximumAge: 600000 },
+    );
+  });
+</script>

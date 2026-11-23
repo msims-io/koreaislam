@@ -1,38 +1,50 @@
 ---
 import '../styles/global.css';
-import { SITE } from '../config';
 import NextStep from '../components/NextStep.astro';
+import { UI, localePath, switchPath, type Lang } from '../i18n';
 
 interface Props {
   title?: string;
   description?: string;
   nextStep?: boolean;
   jsonLd?: object;
+  lang?: Lang;
 }
-const { title, description = SITE.description, nextStep = true, jsonLd } = Astro.props;
-const fullTitle = title ? `${title} | ${SITE.name}` : `${SITE.name} | ${SITE.tagline}`;
-const canonical = new URL(Astro.url.pathname, Astro.site);
-const path = Astro.url.pathname;
+const { title, lang = 'ko', nextStep = true, jsonLd } = Astro.props;
+const t = UI[lang];
+const description = Astro.props.description ?? t.description;
+const fullTitle = title ? `${title} | ${t.siteName}` : `${t.siteName} | ${t.tagline}`;
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
+const path = Astro.url.pathname.slice(basePath.length) || '/';
+const canonical = new URL(basePath + path, Astro.site);
+const other = path.startsWith('/404') ? { lang: 'en' as Lang, path: '/en/' } : switchPath(path);
+const alt = (p: string) => new URL(basePath + p, Astro.site);
+const koPath = lang === 'ko' ? path : other.path;
+const enPath = lang === 'en' ? path : other.path;
+const L = (p: string) => localePath(lang, p);
 const nav = [
-  { href: '/questions/', label: '질문과 답' },
-  { href: '/you/', label: '나와 이슬람' },
-  { href: '/mosques/', label: '가까운 성원' },
-  { href: '/ask/', label: '질문하기' },
-  { href: '/about/', label: '소개' },
+  { href: L('/questions/'), label: t.nav.questions },
+  { href: L('/you/'), label: t.nav.you },
+  { href: L('/mosques/'), label: t.nav.mosques },
+  { href: L('/ask/'), label: t.nav.ask },
+  { href: L('/about/'), label: t.nav.about },
 ];
 ---
 <!doctype html>
-<html lang="ko">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="ko" href={alt(koPath)} />
+    <link rel="alternate" hreflang="en" href={alt(enPath)} />
+    <link rel="alternate" hreflang="x-default" href={alt(koPath)} />
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content="ko_KR" />
-    <meta property="og:site_name" content={SITE.name} />
-    <meta property="og:title" content={title ?? SITE.name} />
+    <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'ko_KR'} />
+    <meta property="og:site_name" content={t.siteName} />
+    <meta property="og:title" content={title ?? t.siteName} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta name="theme-color" content="#2f6b5e" />
@@ -43,11 +55,12 @@ const nav = [
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   </head>
   <body>
-    <a class="skip" href="#main">본문으로 건너뛰기</a>
+    <a class="skip" href="#main">{t.skip}</a>
     <header class="site-header">
       <div class="container">
-        <a class="brand" href="/">궁금한 <span>이슬람</span></a>
-        <nav class="nav" aria-label="주요 메뉴">
+        <a class="brand" href={L('/')}>{t.brandA}<span>{t.brandB}</span></a>
+        <a class="lang-switch" href={other.path} hreflang={other.lang} lang={other.lang} title={t.switchTitle}>{t.switchLabel}</a>
+        <nav class="nav" aria-label={t.navLabel}>
           {nav.map((n) => (
             <a href={n.href} aria-current={path.startsWith(n.href) ? 'page' : undefined}>{n.label}</a>
           ))}
@@ -56,16 +69,16 @@ const nav = [
     </header>
     <main id="main">
       <slot />
-      {nextStep && <NextStep />}
+      {nextStep && <NextStep lang={lang} />}
     </main>
     <footer class="site-footer">
       <div class="container">
         <div>
-          <strong>{SITE.name}</strong> · 한국 무슬림이 운영하는 이슬람 안내 사이트<br />
-          누구에게도 개종을 강요하지 않습니다. "종교에는 강요가 없다" (꾸란 2:256)
+          <strong>{t.siteName}</strong> · {t.footerLine}<br />
+          {t.footerNoForce}
         </div>
         <div>
-          <a href="/about/">운영자와 원칙</a> · <a href="/ask/">문의</a>
+          <a href={L('/about/')}>{t.footerAbout}</a> · <a href={L('/ask/')}>{t.footerContact}</a>
         </div>
       </div>
     </footer>

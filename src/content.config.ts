@@ -12,9 +12,8 @@ export const CATEGORIES = {
   korea: '한국의 무슬림',
 } as const;
 
-const questions = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/questions' }),
-  schema: z.object({
+const schema = () =>
+  z.object({
     title: z.string(),
     // 첫 문단에 보이는 짧은 답 (검색 요약과 FAQ 구조화 데이터에도 쓰임)
     answer: z.string(),
@@ -27,7 +26,18 @@ const questions = defineCollection({
     sources: z.array(z.string()).default([]),
     // 학자 검토를 마치면 true로 바꿉니다.
     reviewed: z.boolean().default(false),
-  }),
+  });
+
+// 한국어 원문 (기본)
+const questions = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/questions' }),
+  schema: schema(),
 });
 
-export const collections = { questions };
+// 영어 번역 (같은 파일 이름 = 같은 질문)
+const questionsEn = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/questions-en' }),
+  schema: schema(),
+});
+
+export const collections = { questions, questionsEn };

@@ -1,0 +1,10 @@
+---
+import { getCollection } from 'astro:content';
+import QuestionPage from '../../../views/QuestionPage.astro';
+export async function getStaticPaths() {
+  const all = await getCollection('questionsEn');
+  return all.map((q) => ({ params: { id: q.id }, props: { q, all } }));
+}
+const { q, all } = Astro.props;
+---
+<QuestionPage q={q} all={all} lang="en" />

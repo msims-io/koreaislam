@@ -10,6 +10,9 @@ export type VisitorPolicy =
 export interface Mosque {
   id: string;
   name: string;
+  nameEn: string;
+  addressEn: string; // 원래 영문 출처의 주소
+  visitorNoteEn?: string;
   region: string; // 필터용 지역
   city: string;
   address: string;
@@ -26,6 +29,9 @@ export interface Mosque {
 export const MOSQUES: Mosque[] = [
   {
     id: 'seoul-central',
+    nameEn: 'Seoul Central Mosque (Korea Muslim Federation)',
+    addressEn: '39 Usadan-ro 10-gil, Yongsan-gu, Seoul',
+    visitorNoteEn: 'Visit requests are taken through the Korea Muslim Federation website. Modest dress, no photos during prayer. Runs Korean-language doctrine classes and an Islamic Culture Day.',
     name: '서울중앙성원 (한국이슬람교중앙회)',
     region: '서울',
     city: '서울 용산구 이태원',
@@ -42,6 +48,8 @@ export const MOSQUES: Mosque[] = [
   },
   {
     id: 'busan-alfatah',
+    nameEn: 'Busan Al-Fatah Mosque',
+    addressEn: '113-13 Geumdan-ro, Geumjeong-gu, Busan',
     name: '부산 알파타 성원',
     region: '부산·경남',
     city: '부산 금정구',
@@ -55,6 +63,8 @@ export const MOSQUES: Mosque[] = [
   },
   {
     id: 'gimhae',
+    nameEn: 'Gimhae Masjid',
+    addressEn: '1F, 317 Bunseong-ro, Gimhae, Gyeongnam',
     name: '김해 마스지드',
     region: '부산·경남',
     city: '경남 김해시',
@@ -67,6 +77,8 @@ export const MOSQUES: Mosque[] = [
   },
   {
     id: 'jeonju',
+    nameEn: 'Jeonju Abu Bakr al-Siddiq Mosque',
+    addressEn: '31 Baekdong 6-gil, Deokjin-gu, Jeonju',
     name: '전주 아부바크르 앗시디끄 성원',
     region: '전라',
     city: '전북 전주시 덕진구',
@@ -80,6 +92,8 @@ export const MOSQUES: Mosque[] = [
   },
   {
     id: 'gwangju-jeolla',
+    nameEn: 'Gwangju Masjid',
+    addressEn: '2-12 Yangsanje-ro 137beon-gil, Buk-gu, Gwangju',
     name: '광주 이슬람 성원',
     region: '전라',
     city: '광주 북구',
@@ -92,6 +106,8 @@ export const MOSQUES: Mosque[] = [
   },
   {
     id: 'gwangju-gyeonggi',
+    nameEn: 'Gwangju (Gyeonggi) Mosque',
+    addressEn: '10 Yeokdong-ro 34beon-gil, Gwangju-si, Gyeonggi',
     name: '경기 광주 성원',
     region: '경기·인천',
     city: '경기 광주시',
@@ -105,6 +121,9 @@ export const MOSQUES: Mosque[] = [
   },
   {
     id: 'ansan',
+    nameEn: 'Ansan Masjid',
+    addressEn: '16-1 Wongokgongwon-ro, Danwon-gu, Ansan',
+    visitorNoteEn: 'Friday midday prayers are very busy.',
     name: '안산 마스지드',
     region: '경기·인천',
     city: '경기 안산시 단원구',
@@ -119,6 +138,8 @@ export const MOSQUES: Mosque[] = [
   },
   {
     id: 'bupyeong',
+    nameEn: 'Bupyeong Masjid',
+    addressEn: '5 Majang-ro, Bupyeong-gu, Incheon',
     name: '부평 마스지드',
     region: '경기·인천',
     city: '인천 부평구',
@@ -131,6 +152,8 @@ export const MOSQUES: Mosque[] = [
   },
   {
     id: 'incheon-gajwa',
+    nameEn: 'Incheon Gajwa Masjid',
+    addressEn: '23-6 Gajeong-ro 126-gil, Seo-gu, Incheon',
     name: '인천 가좌 마스지드',
     region: '경기·인천',
     city: '인천 서구',
@@ -143,6 +166,8 @@ export const MOSQUES: Mosque[] = [
   },
   {
     id: 'daejeon',
+    nameEn: 'Islamic Center of Daejeon',
+    addressEn: '2F, 193 Daehak-ro, Yuseong-gu, Daejeon',
     name: '대전 이슬람센터',
     region: '충청',
     city: '대전 유성구',
@@ -156,6 +181,9 @@ export const MOSQUES: Mosque[] = [
   },
   {
     id: 'daegu',
+    nameEn: 'Daegu Masjid',
+    addressEn: '3 Waryong-ro 54-gil, Dalseo-gu, Daegu',
+    visitorNoteEn: 'Online listings say it is open daily from early to late.',
     name: '대구 마스지드',
     region: '대구·경북',
     city: '대구 달서구',
@@ -169,6 +197,9 @@ export const MOSQUES: Mosque[] = [
   },
   {
     id: 'jeju',
+    nameEn: 'Jeju Islamic Cultural Center',
+    addressEn: 'Near 42 Noyeon-ro, Jeju City (full address being confirmed)',
+    visitorNoteEn: 'Has a prayer room for travellers. Group visits need booking a week ahead; tours on request.',
     name: '제주 이슬람문화센터',
     region: '제주',
     city: '제주시 노형동',
@@ -184,3 +215,12 @@ export const MOSQUES: Mosque[] = [
 ];
 
 export const REGIONS = ['서울', '경기·인천', '충청', '전라', '대구·경북', '부산·경남', '제주'];
+export const REGIONS_EN: Record<string, string> = {
+  서울: 'Seoul',
+  '경기·인천': 'Gyeonggi & Incheon',
+  충청: 'Chungcheong',
+  전라: 'Jeolla',
+  '대구·경북': 'Daegu & Gyeongbuk',
+  '부산·경남': 'Busan & Gyeongnam',
+  제주: 'Jeju',
+};

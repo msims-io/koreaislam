@@ -1,9 +1,11 @@
 ---
-interface Props { id: string; title: string; answer: string }
-const { id, title, answer } = Astro.props;
-const short = answer.length > 80 ? answer.slice(0, 78) + '…' : answer;
+import { localePath, type Lang } from '../i18n';
+interface Props { id: string; title: string; answer: string; lang?: Lang }
+const { id, title, answer, lang = 'ko' } = Astro.props;
+const max = lang === 'en' ? 150 : 80;
+const short = answer.length > max ? answer.slice(0, max - 2).trimEnd() + '…' : answer;
 ---
-<a class="card card-link" href={`/questions/${id}/`}>
+<a class="card card-link" href={localePath(lang, `/questions/${id}/`)}>
   <h3>{title}</h3>
   <p>{short}</p>
 </a>

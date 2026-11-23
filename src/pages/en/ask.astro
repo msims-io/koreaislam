@@ -1,0 +1,50 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../config';
+---
+<Base title="Ask a question" description="Ask anything about Islam. Muslims in Korea answer personally." nextStep={false} lang="en">
+  <div class="prose">
+    <h1>Ask us anything</h1>
+    <p>Anything you are curious about, uneasy about or worried about is fine to ask. A Korean-speaking Muslim volunteer will reply within 48 hours. We will not try to convert you or contact you without being asked.</p>
+
+    <div class="card channel">
+      <h2>Ask on KakaoTalk</h2>
+      <p class="muted">The quickest and easiest way. You don't need to give your name.</p>
+      {SITE.kakaoUrl
+        ? <a class="btn btn-primary" href={SITE.kakaoUrl} target="_blank" rel="noopener">Open the KakaoTalk channel</a>
+        : <p class="notice">The KakaoTalk channel is being set up and will open soon.</p>}
+    </div>
+
+    <div class="card channel">
+      <h2>Write to us</h2>
+      {SITE.formEndpoint ? (
+        <form action={SITE.formEndpoint} method="post">
+          <label for="question">Your question</label>
+          <textarea id="question" name="question" rows="6" required placeholder="e.g. I have a new Muslim friend. What should I keep in mind when we eat together?"></textarea>
+          <label for="email">Email for the reply (optional)</label>
+          <input id="email" name="email" type="email" placeholder="If left blank, we may answer as a public question page" />
+          <label for="publish" class="check"><input id="publish" name="publish" type="checkbox" value="yes" /> It's fine to publish this question on the site without my name</label>
+          <input type="hidden" name="lang" value="en" />
+          <button class="btn btn-primary" type="submit" style="margin-top:16px">Send</button>
+        </form>
+      ) : (
+        <p class="notice">The question form is being set up. {SITE.email ? <>Meanwhile, please email <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</> : 'Please check back soon.'}</p>
+      )}
+    </div>
+
+    <div class="card channel">
+      <h2>Meet in person</h2>
+      <p class="muted">Visit a mosque near you and talk with Muslims face to face.</p>
+      <a class="btn btn-ghost" href="/en/mosques/">Find a mosque near you</a>
+    </div>
+
+    <h2>Questions worth reading first</h2>
+    <p>The most common questions are collected in <a href="/en/questions/">Questions and answers</a>. If yours isn't there, we'll write it up as a new page.</p>
+  </div>
+</Base>
+<style>
+  .channel { margin: 16px 0; }
+  .channel h2 { margin: 0 0 6px; font-size: 1.15rem; }
+  .channel p { margin: 0 0 12px; }
+  .check { font-weight: 400; display: flex; gap: 8px; align-items: center; }
+</style>

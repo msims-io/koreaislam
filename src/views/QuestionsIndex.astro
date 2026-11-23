@@ -1,0 +1,67 @@
+---
+import Base from '../layouts/Base.astro';
+import { UI, localePath, type Lang } from '../i18n';
+
+interface Props { all: any[]; lang: Lang }
+const { lang } = Astro.props;
+const t = UI[lang];
+const all = [...Astro.props.all].sort((a, b) => a.data.order - b.data.order);
+const groups = Object.entries(t.categories)
+  .map(([key, label]) => ({ key, label, items: all.filter((q) => q.data.category === key) }))
+  .filter((g) => g.items.length > 0);
+---
+<Base title={t.q.indexTitle} description={t.q.indexDesc} lang={lang}>
+  <div class="container">
+    <h1>{t.q.indexTitle}</h1>
+    <p class="muted" style="max-width:640px">{t.q.indexIntro}</p>
+    <div class="search">
+      <label for="q" class="sr">{t.q.searchLabel}</label>
+      <input id="q" type="search" placeholder={t.q.searchPlaceholder} autocomplete="off" />
+      <p id="empty" class="muted" hidden>{t.q.empty} <a href={localePath(lang, '/ask/')}>{t.q.emptyLink}</a></p>
+    </div>
+    {groups.map((g) => (
+      <section class="group" id={g.key} data-group>
+        <h2>{g.label}</h2>
+        <ul class="qlist">
+          {g.items.map((q) => (
+            <li data-search={[q.data.title, q.data.answer, ...q.data.keywords].join(' ').toLowerCase()}>
+              <a href={localePath(lang, `/questions/${q.id}/`)}>{q.data.title}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+</Base>
+<style>
+  .search { max-width: 560px; margin: 20px 0 8px; }
+  .sr { position: absolute; left: -9999px; }
+  .qlist { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--line); }
+  .qlist li { border-bottom: 1px solid var(--line); }
+  .qlist a { display: block; padding: 14px 4px; color: var(--text); text-decoration: none; font-weight: 500; }
+  .qlist a:hover { color: var(--accent); }
+  .group h2 { font-size: 1.05rem; color: var(--muted); margin-top: 36px; }
+</style>
+<script>
+  const input = document.getElementById('q') as HTMLInputElement;
+  const empty = document.getElementById('empty')!;
+  const run = () => {
+    const terms = input.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    let shown = 0;
+    document.querySelectorAll<HTMLElement>('[data-group]').forEach((g) => {
+      let n = 0;
+      g.querySelectorAll<HTMLElement>('li').forEach((li) => {
+        const hit = terms.every((t) => (li.dataset.search || '').includes(t));
+        li.hidden = !hit;
+        if (hit) n++;
+      });
+      g.hidden = n === 0;
+      shown += n;
+    });
+    empty.hidden = shown > 0;
+  };
+  const initial = new URLSearchParams(location.search).get('q');
+  if (initial) input.value = initial;
+  input.addEventListener('input', run);
+  run();
+</script>

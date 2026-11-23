@@ -1,0 +1,6 @@
+---
+import { getCollection } from 'astro:content';
+import QuestionsIndex from '../../../views/QuestionsIndex.astro';
+const all = await getCollection('questionsEn');
+---
+<QuestionsIndex all={all} lang="en" />
