@@ -11,9 +11,9 @@ export const switchPath = (path: string): { lang: Lang; path: string } =>
 
 export const UI = {
   ko: {
-    siteName: '궁금한 이슬람',
-    brandA: '궁금한 ',
-    brandB: '이슬람',
+    siteName: '이슬람 이야기',
+    brandA: '이슬람 ',
+    brandB: '이야기',
     tagline: '이슬람에 대한 솔직한 답, 한국어로',
     description:
       '테러, 히잡, 예수, 할랄까지. 한국 사람들이 이슬람에 대해 가장 많이 묻는 질문에 한국 무슬림이 차분하고 솔직하게 답합니다.',
@@ -60,9 +60,9 @@ export const UI = {
     },
   },
   en: {
-    siteName: 'Curious about Islam',
-    brandA: 'Curious about ',
-    brandB: 'Islam',
+    siteName: 'Islam Iyagi',
+    brandA: 'Islam ',
+    brandB: 'Iyagi',
     tagline: 'Honest answers about Islam',
     description:
       'Terrorism, hijab, Jesus, halal. Korean Muslims answer, calmly and honestly, the questions Koreans most often ask about Islam. (English version of a Korean site.)',

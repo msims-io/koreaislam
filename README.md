@@ -1,4 +1,4 @@
-# 궁금한 이슬람 (working name)
+# 이슬람 이야기 (islamiyagi.com)
 
 Honest answers about Islam, in Korean. A calm, question-led static site for Koreans who are curious or worried about Islam, built from the project research report.
 
