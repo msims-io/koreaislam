@@ -18,6 +18,11 @@ const homeVerses = HOME_VERSES.map((r) => VERSES.find((v) => v.ref === r)!);
 const V = lang === 'en'
   ? { title: 'Verses that touch the heart', all: 'More verses', quran: 'Quran' }
   : { title: '마음에 닿는 구절', all: '구절 더 보기', quran: '꾸란' };
+// Shorter, calmer titles for the home page cards. The full question stays on its own page for search.
+const HOME_TITLES: Record<string, { ko: string; en: string }> = {
+  violence: { ko: '이슬람은 폭력의 종교인가요?', en: 'Is Islam a religion of violence?' },
+  halal: { ko: '할랄이란 무엇인가요?', en: 'What is halal?' },
+};
 const featured = FEATURED.map((id) => all.find((q) => q.id === id)).filter((q) => q !== undefined);
 
 const T = lang === 'en'
@@ -26,7 +31,7 @@ const T = lang === 'en'
       h1a: 'Curious about Islam?', h1b: 'Start with honest answers',
       lead: 'If you only know Islam from the news, take your time here. Nobody will tell you what to believe.',
       note: 'This is the English version of a site written for Korean readers.',
-      searchLabel: 'What would you like to know?', placeholder: 'Hijab, terrorism, Jesus, halal…', search: 'Search',
+      searchLabel: 'What would you like to know?', placeholder: 'Hijab, Jesus, halal, Ramadan…', search: 'Search',
       chips: ['hijab', 'halal', 'Ramadan', 'Jesus'],
       top: 'Most asked questions', all: 'See all questions',
       pathsTitle: 'Start from where you are',
@@ -44,7 +49,7 @@ const T = lang === 'en'
       h1a: '이슬람이 궁금할 때,', h1b: '솔직한 답부터',
       lead: '뉴스로만 접한 이슬람, 차분히 알아보세요. 무엇을 믿으라고 하지 않아요.',
       note: '',
-      searchLabel: '무엇이 궁금하세요?', placeholder: '히잡, 테러, 예수, 할랄…', search: '검색',
+      searchLabel: '무엇이 궁금하세요?', placeholder: '히잡, 예수, 할랄, 라마단…', search: '검색',
       chips: ['히잡', '할랄', '라마단', '예수'],
       top: '많이 묻는 질문', all: '질문 모두 보기',
       pathsTitle: '나에게 맞는 이야기부터',
@@ -86,7 +91,7 @@ const jsonLd = { '@context': 'https://schema.org', '@type': 'WebSite', name: lan
       <a href={L('/questions/')}>{T.all} ›</a>
     </div>
     <div class="grid">
-      {featured.map((q) => <QuestionCard id={q.id} title={q.data.title} answer={q.data.answer} lang={lang} />)}
+      {featured.map((q) => <QuestionCard id={q.id} title={HOME_TITLES[q.id]?.[lang] ?? q.data.title} answer={q.data.answer} lang={lang} />)}
     </div>
   </section>
 
