@@ -10,7 +10,7 @@ sources:
   - Korea Muslim Federation (koreaislam.org)
   - Korea Times, "Korea Muslim Federation celebrates 70 years" (2025)
   - Goryeo song "Ssanghwajeom"
-  - "Ayla: The Daughter of War" (2017 film); Korea Times, "Two films revisit nation's painful history" (2018)
+  - Film "Ayla - The Daughter of War" (2017) and Korea Times, "Two films revisit nation's painful history" (2018)
 ---
 
 Many people think of Islam as an unfamiliar religion that arrived recently, but the bond between Korea and Islam runs deeper than you might expect.
