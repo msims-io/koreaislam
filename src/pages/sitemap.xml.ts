@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 
 export const GET: APIRoute = async ({ site }) => {
   const qs = await getCollection('questions');
-  const ko = ['/', '/questions/', '/you/', '/you/christian/', '/you/buddhist/', '/you/non-religious/', '/mosques/', '/ask/', '/about/',
+  const ko = ['/', '/questions/', '/you/', '/you/christian/', '/you/buddhist/', '/you/non-religious/', '/verses/', '/mosques/', '/ask/', '/about/',
     ...qs.map((q) => `/questions/${q.id}/`)];
   const paths = [...ko, ...ko.map((p) => `/en${p}`)];
   const body = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${paths

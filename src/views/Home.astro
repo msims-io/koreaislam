@@ -4,6 +4,7 @@ import Base from '../layouts/Base.astro';
 import QuestionCard from '../components/QuestionCard.astro';
 import Icon from '../components/Icon.astro';
 import { localePath, type Lang } from '../i18n';
+import { VERSES } from '../data/verses';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -12,6 +13,11 @@ const L = (p: string) => localePath(lang, p);
 // 홈에 보여줄 질문 (순서대로)
 const FEATURED = ['violence', 'hijab', 'jesus', 'halal'];
 const all = await getCollection(lang === 'en' ? 'questionsEn' : 'questions');
+const HOME_VERSES = ['13:28', '94:5-6', '2:186'];
+const homeVerses = HOME_VERSES.map((r) => VERSES.find((v) => v.ref === r)!);
+const V = lang === 'en'
+  ? { title: 'Verses that touch the heart', all: 'More verses', quran: 'Quran' }
+  : { title: '마음에 닿는 구절', all: '구절 더 보기', quran: '꾸란' };
 const featured = FEATURED.map((id) => all.find((q) => q.id === id)).filter((q) => q !== undefined);
 
 const T = lang === 'en'
@@ -99,6 +105,21 @@ const jsonLd = { '@context': 'https://schema.org', '@type': 'WebSite', name: lan
   </section>
 
   <section class="container section">
+    <div class="section-head">
+      <h2>{V.title}</h2>
+      <a href={L('/verses/')}>{V.all} ›</a>
+    </div>
+    <div class="grid verses">
+      {homeVerses.map((v) => (
+        <figure class="verse">
+          <blockquote>{lang === 'en' ? v.en : v.ko}</blockquote>
+          <figcaption>{V.quran} {v.ref}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </section>
+
+  <section class="container section">
     <a class="card card-link story" href={L('/questions/islam-in-korea/')}>
       <p class="eyebrow">{T.storyEyebrow}</p>
       <h3>{T.storyTitle}</h3>
@@ -130,6 +151,10 @@ const jsonLd = { '@context': 'https://schema.org', '@type': 'WebSite', name: lan
   .section-band h2 { margin: 0 0 18px; }
   .raised { background: var(--raised); }
   .raised:hover { background: var(--raised); box-shadow: 0 0 0 2px var(--accent-soft); }
+  .verses, .paths { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .verse { margin: 0; background: var(--surface); border-radius: var(--radius-lg); padding: 28px 26px 22px; display: flex; flex-direction: column; justify-content: space-between; gap: 18px; }
+  .verse blockquote { margin: 0; font-size: 1.18rem; line-height: 1.75; font-weight: 500; letter-spacing: -0.02em; }
+  .verse figcaption { font-size: 0.88rem; font-weight: 600; color: var(--accent); }
   .story { background: var(--accent-soft); }
   .story:hover { background: var(--accent-soft); }
   .story h3 { font-size: 1.35rem; }
