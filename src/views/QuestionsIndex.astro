@@ -13,13 +13,15 @@ const groups = Object.entries(t.categories)
 const bodies = await Promise.all(all.map(async (q) => ({ q, Content: (await render(q)).Content })));
 ---
 <Base title={t.q.indexTitle} description={t.q.indexDesc} lang={lang}>
-  <div class="container">
+  <div class="container qa">
+    <div class="reader-head">
     <h1>{t.q.indexTitle}</h1>
     <p class="muted" style="max-width:640px">{t.q.indexIntro}</p>
     <div class="search">
       <label for="q" class="sr">{t.q.searchLabel}</label>
       <input id="q" type="search" placeholder={t.q.searchPlaceholder} autocomplete="off" />
       <p id="empty" class="muted" hidden>{t.q.empty} <a href={localePath(lang, '/ask/')}>{t.q.emptyLink}</a></p>
+    </div>
     </div>
     <div class="reader">
       <nav class="reader-list" aria-label={t.q.indexTitle}>
@@ -74,15 +76,21 @@ const bodies = await Promise.all(all.map(async (q) => ({ q, Content: (await rend
   .group h2 { font-size: 1.15rem; color: var(--text); margin-top: 40px; }
   .reader-pane { display: none; }
   @media (min-width: 960px) {
-    .reader { display: grid; grid-template-columns: minmax(300px, 380px) minmax(0, 1fr); gap: 48px; align-items: start; margin-top: 8px; }
-    .reader-list { position: sticky; top: 72px; max-height: calc(100vh - 80px); overflow-y: auto; overscroll-behavior: auto; scrollbar-width: thin; padding-bottom: 8px; }
-    .reader-list .group h2 { font-size: 0.8rem; color: var(--muted); margin: 10px 0 2px; padding-left: 12px; }
+    /* App-style reader: the list and the answer are two separate scroll areas that fill the window. */
+    :global(main:has(.qa)) { padding: 0; }
+    .qa { display: grid; grid-template-columns: minmax(280px, 360px) minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); column-gap: 40px; height: calc(100vh - 65px); height: calc(100dvh - 65px); min-height: 420px; }
+    .reader { display: contents; }
+    .reader-head { grid-column: 1; grid-row: 1; padding: 28px 0 12px; }
+    .reader-head h1 { font-size: 1.6rem; margin: 0 0 6px; }
+    .reader-head .muted { font-size: 0.92rem; line-height: 1.5; margin: 0; }
+    .search { margin: 14px 0 0; }
+    .reader-list { grid-column: 1; grid-row: 2; overflow-y: auto; overscroll-behavior: contain; padding: 0 8px 32px 0; scrollbar-width: thin; }
     .reader-list .group:first-child h2 { margin-top: 12px; }
-    .qlist a { padding: 6px 12px; font-size: 0.95rem; line-height: 1.35; border-radius: 10px; }
-    .qlist a::after { content: none; }
+    .reader-list .group h2 { font-size: 0.9rem; color: var(--muted); margin: 28px 0 4px; }
+    .qlist a { padding: 12px 12px; font-size: 1rem; border-radius: 12px; }
     .qlist li { border-bottom: 0; }
     .qlist a[aria-current='true'] { background: var(--accent-soft); color: var(--accent-strong); font-weight: 600; }
-    .reader-pane { display: block; padding-top: 16px; min-height: 60vh; scroll-margin-top: 80px; }
+    .reader-pane { display: block; grid-column: 2; grid-row: 1 / 3; overflow-y: auto; padding: 36px 12px 64px 0; scrollbar-width: thin; }
     .reader-pane .prose { margin: 0; padding: 0; }
     .pane-title { font-size: 2rem; line-height: 1.25; margin: 0 0 20px; }
   }
@@ -112,12 +120,12 @@ const bodies = await Promise.all(all.map(async (q) => ({ q, Content: (await rend
     if (!target) return false;
     pane.querySelectorAll<HTMLElement>('[data-answer]').forEach((a) => (a.hidden = a !== target));
     document.querySelectorAll<HTMLElement>('.qlist a').forEach((a) => {
-      if (a.dataset.q === id) a.setAttribute('aria-current', 'true');
+      if (a.dataset.q === id) { a.setAttribute('aria-current', 'true'); a.scrollIntoView({ block: 'nearest' }); }
       else a.removeAttribute('aria-current');
     });
     if (scroll) {
       history.replaceState(null, '', `#${id}`);
-      if (pane.getBoundingClientRect().top < 0) pane.scrollIntoView({ block: 'start' });
+      pane.scrollTop = 0;
     }
     return true;
   };
