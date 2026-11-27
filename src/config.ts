@@ -9,6 +9,8 @@ export const SITE = {
   kakaoUrl: '',
   // TODO: 질문 폼을 받을 주소 (예: Formspree 등). 비어 있으면 폼 대신 안내문이 보입니다.
   formEndpoint: '',
+  // Tally question forms (owner: Mustafa's Tally account). Embedded on the Ask pages; submissions are emailed to the account owner.
+  tallyForm: { ko: 'bZdkxE', en: 'BE71kY' },
   // TODO: 공개 연락 이메일
   email: '',
 };

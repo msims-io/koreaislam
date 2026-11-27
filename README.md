@@ -44,7 +44,7 @@ reviewed: false    # set true after scholarly review
 - [ ] Scholar review of every question page, then set `reviewed: true`
 - [ ] Phone-verify each mosque: address, phone, visitor policy, Korean speaker; set `verified: true`. Hangul addresses outside Seoul were transliterated from English directory entries and may be wrong.
 - [ ] KakaoTalk Channel: removed from the site for now (2026-11-27). When a channel exists, set `kakaoUrl` in `src/config.ts` and all buttons return.
-- [ ] Question form: the Ask page has no working way to send a question. Connect a form service (set `formEndpoint`) or an email address.
+- [x] Question form: Tally forms embedded on the Ask pages (ids in `src/config.ts`); submissions go to the owner of the Tally account. Someone must read and answer them (mostly Korean).
 - [ ] About page, "Who makes it?" section: removed for now (2026-11-27). Add it back once there are real people to introduce (writers, editor, reviewing scholar). Do not describe the site as made by Muslims living in Korea unless that becomes true.
 - [ ] Verses page: scholar check of every rendering and reference in `src/data/verses.ts`; consider adding verified Arabic text
 - [ ] Fact check of the Ayla section on the Islam-in-Korea page

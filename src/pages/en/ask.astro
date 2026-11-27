@@ -17,19 +17,18 @@ import { SITE } from '../../config';
 
     <div class="card channel">
       <h2>Write to us</h2>
-      {SITE.formEndpoint ? (
-        <form action={SITE.formEndpoint} method="post">
-          <label for="question">Your question</label>
-          <textarea id="question" name="question" rows="6" required placeholder="e.g. I have a new Muslim friend. What should I keep in mind when we eat together?"></textarea>
-          <label for="email">Email for the reply (optional)</label>
-          <input id="email" name="email" type="email" placeholder="If left blank, we may answer as a public question page" />
-          <label for="publish" class="check"><input id="publish" name="publish" type="checkbox" value="yes" /> It's fine to publish this question on the site without my name</label>
-          <input type="hidden" name="lang" value="en" />
-          <button class="btn btn-primary" type="submit" style="margin-top:16px">Send</button>
-        </form>
-      ) : (
-        <p class="notice">The question form is being set up. {SITE.email ? <>Meanwhile, please email <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</> : 'Please check back soon.'}</p>
-      )}
+      <iframe data-tally-src={`https://tally.so/embed/${SITE.tallyForm.en}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`} loading="lazy" width="100%" height="520" frameborder="0" title="Question form"></iframe>
+      <script is:inline src="https://tally.so/widgets/embed.js" async></script>
+      <script is:inline>
+        (function () {
+          var load = function () {
+            if (window.Tally) { window.Tally.loadEmbeds(); return; }
+            document.querySelectorAll('iframe[data-tally-src]:not([src])').forEach(function (f) { f.src = f.dataset.tallySrc; });
+          };
+          if (document.readyState === 'complete') load(); else window.addEventListener('load', load);
+        })();
+      </script>
+      <noscript><p><a href={`https://tally.so/r/${SITE.tallyForm.en}`}>Open the question form</a></p></noscript>
     </div>
 
     <div class="card channel">
