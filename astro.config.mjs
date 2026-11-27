@@ -5,7 +5,8 @@ import { fileURLToPath } from 'node:url';
 
 // SITE_URL: the site's origin, e.g. https://msims-io.github.io or https://islam-algi.kr
 // BASE_PATH: sub-path when hosted under one, e.g. /gunggeumhan-islam (GitHub Pages project site). Empty for a custom domain.
-const site = process.env.SITE_URL || 'https://example.kr';
+// GitHub reports http:// for a custom domain until HTTPS is enforced; canonical links should always be https.
+const site = (process.env.SITE_URL || 'https://example.kr').replace(/^http:\/\/(?!localhost)/, 'https://');
 const base = (process.env.BASE_PATH || '').replace(/\/$/, '');
 
 // Pages and Markdown link with root paths like "/questions/". When the site lives under a
