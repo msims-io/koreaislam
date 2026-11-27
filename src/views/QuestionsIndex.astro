@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import { render } from 'astro:content';
 import { UI, localePath, type Lang } from '../i18n';
 
 interface Props { all: any[]; lang: Lang }
@@ -9,6 +10,7 @@ const all = [...Astro.props.all].sort((a, b) => a.data.order - b.data.order);
 const groups = Object.entries(t.categories)
   .map(([key, label]) => ({ key, label, items: all.filter((q) => q.data.category === key) }))
   .filter((g) => g.items.length > 0);
+const bodies = await Promise.all(all.map(async (q) => ({ q, Content: (await render(q)).Content })));
 ---
 <Base title={t.q.indexTitle} description={t.q.indexDesc} lang={lang}>
   <div class="container">
@@ -19,18 +21,45 @@ const groups = Object.entries(t.categories)
       <input id="q" type="search" placeholder={t.q.searchPlaceholder} autocomplete="off" />
       <p id="empty" class="muted" hidden>{t.q.empty} <a href={localePath(lang, '/ask/')}>{t.q.emptyLink}</a></p>
     </div>
-    {groups.map((g) => (
-      <section class="group" id={g.key} data-group>
-        <h2>{g.label}</h2>
-        <ul class="qlist">
-          {g.items.map((q) => (
-            <li data-search={[q.data.title, q.data.answer, ...q.data.keywords].join(' ').toLowerCase()}>
-              <a href={localePath(lang, `/questions/${q.id}/`)}>{q.data.title}</a>
-            </li>
-          ))}
-        </ul>
-      </section>
-    ))}
+    <div class="reader">
+      <nav class="reader-list" aria-label={t.q.indexTitle}>
+        {groups.map((g) => (
+          <section class="group" id={g.key} data-group>
+            <h2>{g.label}</h2>
+            <ul class="qlist">
+              {g.items.map((q) => (
+                <li data-search={[q.data.title, q.data.answer, ...q.data.keywords].join(' ').toLowerCase()}>
+                  <a href={localePath(lang, `/questions/${q.id}/`)} data-q={q.id}>{q.data.title}</a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </nav>
+      <div class="reader-pane" id="pane" data-nosnippet>
+        {bodies.map(({ q, Content }) => (
+          <article class="prose" id={`a-${q.id}`} data-answer={q.id} hidden>
+            <p class="eyebrow">{t.categories[q.data.category as keyof typeof t.categories]}</p>
+            <h2 class="pane-title">{q.data.title}</h2>
+            <div class="answer-box">
+              <strong>{t.q.short}</strong>
+              <p>{q.data.answer}</p>
+            </div>
+            <Content />
+            {q.data.sources.length > 0 && (
+              <div class="sources">
+                <strong>{t.q.sources}</strong>
+                <ul>{q.data.sources.map((s: string) => <li>{s}</li>)}</ul>
+                <p class="small">
+                  {q.data.reviewed ? t.q.reviewed : t.q.draft}{' '}
+                  <a href={localePath(lang, '/ask/')}>{t.q.feedback}</a>
+                </p>
+              </div>
+            )}
+          </article>
+        ))}
+      </div>
+    </div>
   </div>
 </Base>
 <style>
@@ -43,6 +72,19 @@ const groups = Object.entries(t.categories)
   .qlist a::after { content: '›'; color: var(--muted); font-size: 1.3rem; line-height: 1; }
   .qlist a:hover { color: var(--accent); }
   .group h2 { font-size: 1.15rem; color: var(--text); margin-top: 40px; }
+  .reader-pane { display: none; }
+  @media (min-width: 960px) {
+    .reader { display: grid; grid-template-columns: minmax(280px, 360px) minmax(0, 1fr); gap: 48px; align-items: start; margin-top: 8px; }
+    .reader-list { position: sticky; top: 76px; max-height: calc(100vh - 92px); overflow-y: auto; padding-right: 8px; }
+    .reader-list .group:first-child h2 { margin-top: 16px; }
+    .reader-list .group h2 { font-size: 0.9rem; color: var(--muted); margin: 28px 0 4px; }
+    .qlist a { padding: 12px 12px; font-size: 1rem; border-radius: 12px; }
+    .qlist li { border-bottom: 0; }
+    .qlist a[aria-current='true'] { background: var(--accent-soft); color: var(--accent-strong); font-weight: 600; }
+    .reader-pane { display: block; padding-top: 16px; min-height: 60vh; scroll-margin-top: 80px; }
+    .reader-pane .prose { margin: 0; padding: 0; }
+    .pane-title { font-size: 2rem; line-height: 1.25; margin: 0 0 20px; }
+  }
 </style>
 <script>
   const input = document.getElementById('q') as HTMLInputElement;
@@ -62,6 +104,31 @@ const groups = Object.entries(t.categories)
     });
     empty.hidden = shown > 0;
   };
+  const wide = window.matchMedia('(min-width: 960px)');
+  const pane = document.getElementById('pane')!;
+  const show = (id: string, scroll: boolean) => {
+    const target = pane.querySelector<HTMLElement>(`[data-answer="${CSS.escape(id)}"]`);
+    if (!target) return false;
+    pane.querySelectorAll<HTMLElement>('[data-answer]').forEach((a) => (a.hidden = a !== target));
+    document.querySelectorAll<HTMLElement>('.qlist a').forEach((a) => {
+      if (a.dataset.q === id) a.setAttribute('aria-current', 'true');
+      else a.removeAttribute('aria-current');
+    });
+    if (scroll) {
+      history.replaceState(null, '', `#${id}`);
+      if (pane.getBoundingClientRect().top < 0) pane.scrollIntoView({ block: 'start' });
+    }
+    return true;
+  };
+  document.querySelector('.reader')!.addEventListener('click', (e) => {
+    if (!wide.matches || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    const a = (e.target as HTMLElement).closest('a');
+    if (!a) return;
+    const m = new URL(a.href, location.href).pathname.match(/\/questions\/([^/]+)\/$/);
+    if (m && show(m[1], true)) e.preventDefault();
+  });
+  const first = document.querySelector<HTMLElement>('.qlist a')?.dataset.q;
+  if (!show(decodeURIComponent(location.hash.slice(1)), false) && first) show(first, false);
   const initial = new URLSearchParams(location.search).get('q');
   if (initial) input.value = initial;
   input.addEventListener('input', run);
