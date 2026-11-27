@@ -14,7 +14,7 @@ const kakao = SITE.kakaoUrl || localePath(lang, '/ask/');
       <p>{t.body}</p>
     </div>
     <div class="actions">
-      <a class="btn on-white" href={kakao} target={SITE.kakaoUrl ? '_blank' : undefined} rel={SITE.kakaoUrl ? 'noopener' : undefined}>{t.kakao}</a>
+      <a class="btn on-white" href={kakao} target={SITE.kakaoUrl ? '_blank' : undefined} rel={SITE.kakaoUrl ? 'noopener' : undefined}>{SITE.kakaoUrl ? t.kakao : t.ask}</a>
       <a class="btn on-tint" href={localePath(lang, '/mosques/')}>{t.mosque}</a>
     </div>
   </div>

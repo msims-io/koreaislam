@@ -7,13 +7,13 @@ import { SITE } from '../../config';
     <h1>Ask us anything</h1>
     <p>Anything you are curious about, uneasy about or worried about is fine to ask. A Korean-speaking Muslim volunteer will reply within 48 hours. We will not try to convert you or contact you without being asked.</p>
 
+    {SITE.kakaoUrl && (
     <div class="card channel">
       <h2>Ask on KakaoTalk</h2>
       <p class="muted">The quickest and easiest way. You don't need to give your name.</p>
-      {SITE.kakaoUrl
-        ? <a class="btn btn-primary" href={SITE.kakaoUrl} target="_blank" rel="noopener">Open the KakaoTalk channel</a>
-        : <p class="notice">The KakaoTalk channel is being set up and will open soon.</p>}
+      <a class="btn btn-primary" href={SITE.kakaoUrl} target="_blank" rel="noopener">Open the KakaoTalk channel</a>
     </div>
+    )}
 
     <div class="card channel">
       <h2>Write to us</h2>

@@ -31,6 +31,7 @@ export const UI = {
       heading: '더 궁금한 점이 있으신가요?',
       body: '글로는 다 전하기 어려운 것이 있어요. 한국어로 편하게 물어보시거나, 가까운 성원(모스크)에 찾아가 보세요. 누구도 개종을 권하지 않습니다.',
       kakao: '카카오톡으로 질문하기',
+      ask: '질문하기',
       mosque: '가까운 성원 찾기',
     },
     q: {
@@ -78,8 +79,9 @@ export const UI = {
     next: {
       eyebrow: 'Next step',
       heading: 'Still have questions?',
-      body: 'Some things are hard to put in writing. Ask us anything on KakaoTalk, or visit a mosque near you. Nobody will push you to convert.',
+      body: 'Some things are hard to put in writing. Ask us anything, or visit a mosque near you. Nobody will push you to convert.',
       kakao: 'Ask on KakaoTalk',
+      ask: 'Ask a question',
       mosque: 'Find a mosque near you',
     },
     q: {
