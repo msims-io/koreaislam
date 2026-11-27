@@ -11,6 +11,10 @@ export const SITE = {
   formEndpoint: '',
   // Tally question forms (owner: Mustafa's Tally account). Embedded on the Ask pages; submissions are emailed to the account owner.
   tallyForm: { ko: 'bZdkxE', en: 'BE71kY' },
+  // Cloudflare Web Analytics token (visitor counts, no cookies). Empty = no tracking script on the site.
+  // Get it at dash.cloudflare.com > Analytics & Logs > Web Analytics > Add a site > islamiyagi.com.
+  // It is the 32-character value after "token": in the snippet Cloudflare shows. It is public, not a secret.
+  cloudflareAnalyticsToken: '',
   // TODO: 공개 연락 이메일
   email: '',
 };
