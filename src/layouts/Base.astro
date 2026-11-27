@@ -2,6 +2,7 @@
 import '../styles/skins/toss.css';
 import '../styles/global.css';
 import NextStep from '../components/NextStep.astro';
+import { SITE } from '../config';
 import { UI, localePath, switchPath, type Lang } from '../i18n';
 
 interface Props {
@@ -22,6 +23,8 @@ const other = path.startsWith('/404') ? { lang: 'en' as Lang, path: '/en/' } : s
 const alt = (p: string) => new URL(basePath + p, Astro.site);
 const koPath = lang === 'ko' ? path : other.path;
 const enPath = lang === 'en' ? path : other.path;
+// Visitor counts: only on the built site, and only once a token is set in src/config.ts.
+const cfToken = import.meta.env.PROD ? SITE.cloudflareAnalyticsToken.trim() : '';
 const L = (p: string) => localePath(lang, p);
 const nav = [
   { href: L('/questions/'), label: t.nav.questions },
@@ -55,6 +58,9 @@ const nav = [
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+    {cfToken && (
+      <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={JSON.stringify({ token: cfToken })} />
+    )}
   </head>
   <body>
     <a class="skip" href="#main">{t.skip}</a>
