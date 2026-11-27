@@ -23,12 +23,12 @@ The Qur'an says men and women come from the same origin, and are rewarded equall
 
 - **Property**: a woman owns and manages her own property. It does not become her husband's when she marries.
 - **Inheritance**: women inherit from their parents and husbands (4:7).
-- **Consent to marriage**: the Prophet Muhammad taught that a woman must not be married off without her consent.
+- **Consent to marriage**: the Prophet Muhammad (pbuh) taught that a woman must not be married off without her consent.
 - **Education**: the teaching "seeking knowledge is a duty for every Muslim" applies to men and women alike.
 
-The Prophet Muhammad's first wife, Khadijah, was a successful merchant, and his wife Aisha was a leading Islamic scholar who taught many male students. Al-Qarawiyyin in Morocco, often counted among the oldest universities in the world, was founded by a Muslim woman, Fatima al-Fihri.
+The first wife of the Prophet Muhammad (pbuh), Khadijah, was a successful merchant, and his wife Aisha was a leading Islamic scholar who taught many male students. Al-Qarawiyyin in Morocco, often counted among the oldest universities in the world, was founded by a Muslim woman, Fatima al-Fihri.
 
-The Prophet also said: "The best of you are those who are best to their wives."
+The Prophet (pbuh) also said: "The best of you are those who are best to their wives."
 
 ## So why is reality different?
 

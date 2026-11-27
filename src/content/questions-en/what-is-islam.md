@@ -1,6 +1,6 @@
 ---
 title: "What kind of religion is Islam?"
-answer: "Islam means finding peace by entrusting yourself to the one God. Muslims believe in prophets such as Abraham, Moses and Jesus, and follow the Qur'an, revealed through the last prophet, Muhammad. About 1.9 billion people, one in four people worldwide, are Muslim."
+answer: "Islam means finding peace by entrusting yourself to the one God. Muslims believe in prophets such as Abraham, Moses and Jesus, and follow the Qur'an, revealed through the last prophet, Muhammad (pbuh). About 1.9 billion people, one in four people worldwide, are Muslim."
 category: basics
 order: 1
 featured: true
@@ -22,7 +22,7 @@ Many people first come across Islam in the news, so they think of it as a strang
 1. **One God**: God is one, and nothing is like Him. (Qur'an 112)
 2. **Angels**: there are beings who carry God's word.
 3. **Scriptures**: the Law of Moses (Torah), the Psalms of David, the Gospel of Jesus and the Qur'an are all revelations from God.
-4. **Prophets**: God sent many prophets, from Adam, Noah, Abraham, Moses and Jesus through to Muhammad.
+4. **Prophets**: God sent many prophets, from Adam, Noah, Abraham, Moses and Jesus through to Muhammad (pbuh).
 5. **The Day of Judgement**: when this life ends, everyone will answer for what they did.
 6. **God's will (divine decree)**: everything happens within God's knowledge and will.
 
@@ -36,7 +36,7 @@ Many people first come across Islam in the news, so they think of it as a strang
 
 ## Not a new religion, but the same message continued
 
-Muslims don't see Islam as a new religion that Muhammad invented. They believe it is the last renewal of the same message that Abraham, Moses and Jesus brought: serve the one God and live a good life. As the Qur'an says:
+Muslims don't see Islam as a new religion that Muhammad (pbuh) invented. They believe it is the last renewal of the same message that Abraham, Moses and Jesus brought: serve the one God and live a good life. As the Qur'an says:
 
 > "We believe in God and in what was sent down to us, and what was sent down to Abraham, Ishmael, Isaac, Jacob and their descendants, and what was given to Moses and Jesus. We make no distinction between any of them." (Qur'an 2:136)
 

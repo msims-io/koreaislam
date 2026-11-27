@@ -145,12 +145,12 @@ export const VERSES: Verse[] = [
     en: 'Worship God and associate nothing with Him. And be good to parents, relatives, orphans and the poor, to the neighbour who is near and the neighbour who is far, to the companion at your side and to the traveller.',
   },
   {
-    ref: '', hadith: { ko: '예언자 무함마드의 말씀 (부카리, 무슬림 전승)', en: 'Saying of the Prophet Muhammad (recorded by Bukhari and Muslim)' }, theme: 'neighbours', reviewed: false,
+    ref: '', hadith: { ko: '예언자 무함마드(그분께 하나님의 평화가 깃들기를)의 말씀 (부카리, 무슬림 전승)', en: 'Saying of the Prophet Muhammad (pbuh), recorded by Bukhari and Muslim' }, theme: 'neighbours', reviewed: false,
     ko: '천사 가브리엘이 이웃에게 잘하라고 내게 거듭 당부하여, 나는 이웃이 상속자가 되는 줄 알았을 정도였다.',
     en: 'The angel Gabriel kept urging me to treat the neighbour well, until I thought he would make the neighbour an heir.',
   },
   {
-    ref: '', hadith: { ko: '예언자 무함마드의 말씀 (부카리, 무슬림 전승)', en: 'Saying of the Prophet Muhammad (recorded by Bukhari and Muslim)' }, theme: 'neighbours', reviewed: false,
+    ref: '', hadith: { ko: '예언자 무함마드(그분께 하나님의 평화가 깃들기를)의 말씀 (부카리, 무슬림 전승)', en: 'Saying of the Prophet Muhammad (pbuh), recorded by Bukhari and Muslim' }, theme: 'neighbours', reviewed: false,
     ko: '하나님과 마지막 날을 믿는 사람은 이웃에게 너그럽게 대하라.',
     en: 'Whoever believes in God and the Last Day, let him be generous to his neighbour.',
   },
@@ -165,7 +165,7 @@ export const VERSES: Verse[] = [
     en: 'Do you not see that all who are in the heavens and the earth glorify God, and the birds with wings outspread? Each one knows its own prayer and praise.',
   },
   {
-    ref: '', hadith: { ko: '예언자 무함마드의 말씀 (부카리, 무슬림 전승)', en: 'Saying of the Prophet Muhammad (recorded by Bukhari and Muslim)' }, theme: 'animals', reviewed: false,
+    ref: '', hadith: { ko: '예언자 무함마드(그분께 하나님의 평화가 깃들기를)의 말씀 (부카리, 무슬림 전승)', en: 'Saying of the Prophet Muhammad (pbuh), recorded by Bukhari and Muslim' }, theme: 'animals', reviewed: false,
     ko: '목마른 개에게 물을 떠다 준 한 사람을 하나님께서 용서하셨다. 사람들이 물었다. "동물에게 잘해도 저희에게 보상이 있습니까?" 그분이 답했다. "살아 있는 모든 것에게 베푼 선에는 보상이 있다."',
     en: 'A man gave water to a thirsty dog, and God forgave him for it. People asked, "Is there a reward for us in kindness to animals?" He said, "There is a reward for kindness to every living creature."',
   },

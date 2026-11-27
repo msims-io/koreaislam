@@ -50,3 +50,12 @@ reviewed: false    # set true after scholarly review
 - [ ] Fact check of the Ayla section on the Islam-in-Korea page
 - [x] Name and domain chosen: 이슬람 이야기, islamiyagi.com
 - [ ] Register with Naver Search Advisor and Google Search Console; confirm "Enforce HTTPS" is ticked in GitHub Pages settings
+
+## Honorific for the Prophet Muhammad
+
+Every mention of the Prophet Muhammad is followed by an honorific:
+
+- English: `(pbuh)`, e.g. "the Prophet Muhammad (pbuh)".
+- Korean: `(그분께 하나님의 평화가 깃들기를)`, "may God's peace be upon him", placed straight after the name and before the particle, e.g. `예언자 무함마드(그분께 하나님의 평화가 깃들기를)는`.
+
+The only exception is the quoted declaration of faith (shahada), which is left as a word-for-word quotation.
