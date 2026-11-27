@@ -24,7 +24,11 @@ The Qur'an first tells **men** to "lower their gaze and be modest" (24:30), then
 - **"Treat me as a person, not by my looks"**: wanting to be judged by thoughts and character rather than appearance.
 - **Identity**: a quiet way of saying "I am Muslim".
 
-It may help to think of a Catholic nun wearing a veil, or a Buddhist monk shaving their head and wearing robes.
+## Much like a nun's veil
+
+Covering the head as a sign of faith is not unique to Islam. Catholic nuns wear a veil, and in paintings and statues Mary is almost always shown with her head covered. Buddhist monks and nuns shave their heads and wear plain robes. The clothing differs, but it says the same thing: modesty, and a life turned towards something greater than appearance.
+
+There is a difference worth being honest about. A nun's habit belongs to women who have taken vows of religious life, while the hijab is worn by ordinary women at school, at work and at home. But the meaning behind the two is much the same.
 
 ## What about countries that force it?
 
