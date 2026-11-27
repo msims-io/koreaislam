@@ -74,11 +74,12 @@ const bodies = await Promise.all(all.map(async (q) => ({ q, Content: (await rend
   .group h2 { font-size: 1.15rem; color: var(--text); margin-top: 40px; }
   .reader-pane { display: none; }
   @media (min-width: 960px) {
-    .reader { display: grid; grid-template-columns: minmax(280px, 360px) minmax(0, 1fr); gap: 48px; align-items: start; margin-top: 8px; }
-    .reader-list { position: sticky; top: 76px; max-height: calc(100vh - 92px); overflow-y: auto; padding-right: 8px; }
-    .reader-list .group:first-child h2 { margin-top: 16px; }
-    .reader-list .group h2 { font-size: 0.9rem; color: var(--muted); margin: 28px 0 4px; }
-    .qlist a { padding: 12px 12px; font-size: 1rem; border-radius: 12px; }
+    .reader { display: grid; grid-template-columns: minmax(300px, 380px) minmax(0, 1fr); gap: 48px; align-items: start; margin-top: 8px; }
+    .reader-list { position: sticky; top: 72px; max-height: calc(100vh - 80px); overflow-y: auto; overscroll-behavior: auto; scrollbar-width: thin; padding-bottom: 8px; }
+    .reader-list .group h2 { font-size: 0.8rem; color: var(--muted); margin: 10px 0 2px; padding-left: 12px; }
+    .reader-list .group:first-child h2 { margin-top: 12px; }
+    .qlist a { padding: 6px 12px; font-size: 0.95rem; line-height: 1.35; border-radius: 10px; }
+    .qlist a::after { content: none; }
     .qlist li { border-bottom: 0; }
     .qlist a[aria-current='true'] { background: var(--accent-soft); color: var(--accent-strong); font-weight: 600; }
     .reader-pane { display: block; padding-top: 16px; min-height: 60vh; scroll-margin-top: 80px; }
